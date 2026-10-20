@@ -1,0 +1,46 @@
+name: Refresh jobs and publish
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: jobs-production
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache/jobs.sqlite3
+          key: jobs-state-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: jobs-state-
+      - name: Test lifecycle rules
+        run: python -B tests/test_refresh.py
+      - name: Refresh sources and build site
+        run: python -B scripts/build_site.py
+      - uses: actions/cache/save@v4
+        with:
+          path: .cache/jobs.sqlite3
+          key: jobs-state-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
