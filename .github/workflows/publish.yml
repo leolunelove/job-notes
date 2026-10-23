@@ -33,6 +33,8 @@ jobs:
         run: python -B tests/test_refresh.py
       - name: Refresh sources and build site
         run: python -B scripts/build_site.py
+      - name: Verify compact search and detail files
+        run: python -B tests/test_export.py
       - uses: actions/cache/save@v4
         with:
           path: .cache/jobs.sqlite3

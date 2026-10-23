@@ -20,7 +20,7 @@ for filename,url in {'pdf.min.js':'https://cdnjs.cloudflare.com/ajax/libs/pdf.js
 # and distinct words for custom skill searches. No CV enters this build.
 app=(ROOT/'dist/app.js').read_text()
 vocabulary=json.loads(re.search(r"const vocabulary=(\[[^;]+\]);",app).group(1).replace("'",'"'))
-skill_pattern=re.compile(r'(?<![a-z0-9])('+('|'.join(re.escape(skill) for skill in vocabulary))+r')(?=$|[^a-z0-9])',re.I)
+skill_pattern=re.compile(r'(?<![a-z0-9])(?=('+('|'.join(re.escape(skill) for skill in vocabulary))+r')(?=$|[^a-z0-9]))',re.I)
 skill_names={s.lower():s for s in vocabulary}
 buckets={};index=[];term_buckets={}
 for original in data['jobs']:
