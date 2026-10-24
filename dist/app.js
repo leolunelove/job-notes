@@ -59,7 +59,8 @@ async function hydrateJob(job){if(!job.detailUrl||job.detailsLoaded)return;try{c
 function showJob(id){const job=jobs.find(j=>j.id===id);if(!job)return;activeJobId=id;$('#job-detail').querySelectorAll('details[open]').forEach(d=>d.open=false);$('#job-detail').scrollTop=0;drawJob();$('#job-sheet').showModal();document.body.classList.add('sheet-open');hydrateJob(job)}
 function roleExcerpt(job){
  const text=job.description||'';
- const marker=/\b(?:what you(?:’|')?ll (?:do|work on)|your responsibilities|key responsibilities|responsibilities|about the role|the role)\b\s*[:–—-]?/i.exec(text);
+ const candidate=/\b(?:what you(?:’|')?ll (?:do|work on)|your responsibilities|key responsibilities|responsibilities|about the role)\b\s*[:–—-]?/i.exec(text);
+ const marker=candidate&&/^[A-Z]/.test(text.slice(candidate.index+candidate[0].length).trim())?candidate:null;
  let body=marker?text.slice(marker.index+marker[0].length):text;
  if(marker)body=body.split(/\b(?:qualifications|requirements|benefits)\s*:/i)[0];
  const sentences=body.split(/(?<=[.!?])\s+(?=[A-Z])/).map(t=>t.trim()).filter(t=>t.length>35);
