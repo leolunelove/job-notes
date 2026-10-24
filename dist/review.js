@@ -22,8 +22,8 @@ function inspect(text){
  if(words<120)findings.push({title:'Add a little more context.',body:'This is a short extract. For a full CV, include your recent work or projects and the skills you used. If this is only a summary, this finding may not apply.'});
  if(words>1100)findings.push({title:'Try a tighter first read.',body:'The extract is over 1,100 words. Consider trimming repeated details and prioritising work relevant to your target role. Some careers need a longer CV.'});
  const structure=experience&&(education||skillSection);
- const verdict=!readable?'Check the text before going further.':words<120?'A starting point. Add a little more detail.':findings.length?'A useful starting point, with a few things to review.':'The basics are easy to find.';
- return {words,verdict,checks:[{label:'Reading',value:readable?'Good':'Needs attention'},{label:'Structure',value:structure?'Good':'Needs attention'},{label:'Evidence',value:measured?'Example detected':'Worth reviewing'}],findings:findings.slice(0,3)};
+ const verdict=!readable?'Check the extracted text.':words<120?'A little more context would help.':findings.length?'A few things to review.':'The basics are easy to find.';
+ return {words,verdict,checks:[{label:'Text extraction',value:readable?'Readable text':'Review text'},{label:'Section headings',value:structure?'Detected':'Review headings'},{label:'Measured example',value:measured?'Detected':'Not detected'}],findings:findings.slice(0,3)};
 }
 root.CVReview={inspect};
 })(globalThis);
