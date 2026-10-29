@@ -1,0 +1,25 @@
+{
+  "id": "./",
+  "name": "NextJob",
+  "short_name": "NextJob",
+  "description": "A few good possibilities.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6ee",
+  "theme_color": "#f4f6ee",
+  "icons": [
+    {
+      "src": "icons/nextjob-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/nextjob-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -7,8 +7,9 @@ spec=importlib.util.spec_from_file_location('jobs',ROOT/'dist/server.py');server
 server.init();server.refresh_due();data=server.payload()
 if not data['jobs']:raise SystemExit('No usable jobs: refusing an empty deployment')
 site=ROOT/'site';site.mkdir(exist_ok=True)
-for name in ['index.html','style.css','app.js','review.js','freshness.js']:
+for name in ['index.html','style.css','app.js','review.js','freshness.js','manifest.webmanifest']:
  shutil.copy2(ROOT/'dist'/name,site/name)
+shutil.copytree(ROOT/'dist/icons',site/'icons',dirs_exist_ok=True)
 (site/'vendor').mkdir(exist_ok=True)
 import urllib.request
 for filename,url in {'pdf.min.js':'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js','pdf.worker.min.js':'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js','mammoth.browser.min.js':'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js'}.items():
